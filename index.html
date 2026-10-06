@@ -1,793 +1,1213 @@
 <!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="theme-color" content="#101b18">
-    <meta name="description" content="Experience Thirukkural 467 through real-life choices, a personal decision journal, and a thoughtful ten-second challenge.">
-    <title>
-      467 · The Art of a Thoughtful Decision
-    </title>
-    <link rel="stylesheet" href="style.css">
-    <script src="script.js" defer>
-    </script>
-  </head>
-  <body>
-    <a class="skip-link" href="#main">
-      Skip to content
-    </a>
-    <div class="reading-progress" aria-hidden="true"><span id="reading-progress"></span></div>
-    <header class="site-header">
-      <a class="brand" href="#home" aria-label="Kural 467 home">
-        <span class="brand-mark" aria-hidden="true">
-          க
-        </span>
-        <span>
-          KURAL
-          <b>
-            467
-          </b>
+<html lang="ta" data-theme="manuscript">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>திருக்குறள் 467 | Thirukkural 467 — Think Before You Act</title>
+  <meta name="description" content="An interactive, 3D educational experience based on Thirukkural 467: எண்ணித் துணிக கருமம்; துணிந்தபின் எண்ணுவம் என்பது இழுக்கு. Master the art of deliberate thinking and confident action.">
+
+  <!-- Typography: Noto Serif Tamil, Mukta Malar, Cinzel, Outfit -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800;900&family=Mukta+Malar:wght@400;500;600;700;800&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- Ambient Background & Particle Canvas -->
+  <div class="ambient-bg" aria-hidden="true">
+    <div class="bg-gradient-glow top-left"></div>
+    <div class="bg-gradient-glow bottom-right"></div>
+    <div class="kolam-watermark top-right"></div>
+    <div class="kolam-watermark bottom-left"></div>
+    <canvas id="particleCanvas" class="particle-canvas"></canvas>
+  </div>
+
+  <!-- Navigation Bar -->
+  <header class="site-header" id="siteHeader">
+    <div class="header-inner">
+      <a href="#hero" class="brand-logo" aria-label="Home: Thirukkural 467">
+        <span class="logo-symbol">ௐ</span>
+        <span class="logo-text">
+          <strong class="tamil-title">திருக்குறள் 467</strong>
+          <small class="sub-title">Kural Experience</small>
         </span>
       </a>
-      <nav aria-label="Main navigation">
-        <a href="#meaning">
-          The wisdom
-        </a>
-        <a href="#experience">
-          The experience
-        </a>
-        <a class="nav-action" href="#simulator">
-          Your decision
-          <span aria-hidden="true">
-            ↗
-          </span>
-        </a>
+
+      <nav class="nav-links" id="mainNav">
+        <a href="#hero" class="nav-link active">முகப்பு <span class="en-hint">Hero</span></a>
+        <a href="#meaning" class="nav-link">பொருள் <span class="en-hint">Wisdom</span></a>
+        <a href="#game" class="nav-link">விளையாட்டு <span class="en-hint">Game</span></a>
+        <a href="#simulator" class="nav-link">சிந்தனை களம் <span class="en-hint">Simulator</span></a>
+        <a href="#comparison" class="nav-link">ஒப்பீடு <span class="en-hint">Compare</span></a>
+        <a href="#challenge" class="nav-link">சவால் <span class="en-hint">10s Trial</span></a>
+        <a href="#applications" class="nav-link">வாழ்வியல் <span class="en-hint">Life</span></a>
       </nav>
-      <div class="header-tools"><button class="theme-toggle" id="theme-toggle" type="button" aria-label="Dark mode" aria-pressed="false"><span aria-hidden="true">◐</span></button>
-      <div class="language-switch" role="group" aria-label="Language">
-        <button type="button" data-language="en" lang="en" aria-pressed="true">English</button>
-        <button type="button" data-language="ta" lang="ta" aria-pressed="false">தமிழ்</button>
+
+      <div class="header-controls">
+        <!-- Sound Synthesis Toggle -->
+        <button id="soundToggleBtn" class="ctrl-btn" title="Toggle Meditative Audio (Web Audio API)" aria-label="Toggle Sound">
+          <svg class="icon sound-on-icon" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2">
+            <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+            <path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+            <path d="M19.07 4.93a10 10 0 0 1 0 14.14"></path>
+          </svg>
+          <svg class="icon sound-off-icon hidden" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2">
+            <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+            <line x1="23" y1="9" x2="17" y2="15"></line>
+            <line x1="17" y1="9" x2="23" y2="15"></line>
+          </svg>
+        </button>
+
+        <!-- Theme Toggle -->
+        <button id="themeToggleBtn" class="ctrl-btn" title="Toggle Manuscript / Night Mode" aria-label="Toggle Theme">
+          <svg class="icon sun-icon" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="5"></circle>
+            <line x1="12" y1="1" x2="12" y2="3"></line>
+            <line x1="12" y1="21" x2="12" y2="23"></line>
+            <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+            <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+            <line x1="1" y1="12" x2="3" y2="12"></line>
+            <line x1="21" y1="12" x2="23" y2="12"></line>
+            <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+            <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+          </svg>
+          <svg class="icon moon-icon hidden" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+          </svg>
+        </button>
+
+        <!-- Mobile Menu Toggle -->
+        <button id="mobileMenuBtn" class="ctrl-btn mobile-only" aria-label="Open Navigation Menu">
+          <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2">
+            <line x1="3" y1="12" x2="21" y2="12"></line>
+            <line x1="3" y1="6" x2="21" y2="6"></line>
+            <line x1="3" y1="18" x2="21" y2="18"></line>
+          </svg>
+        </button>
       </div>
-      </div>
-    </header>
-    <p id="language-status" class="sr-only" role="status" aria-live="polite"></p>
-    <main id="main">
-      <section class="hero" id="home" aria-labelledby="hero-title">
-        <div class="hero-inner section-wrap">
-          <div class="hero-copy">
-            <p class="eyebrow"><span class="live-dot" aria-hidden="true"></span> ANCIENT WISDOM. A MODERN MINDSET.</p>
-            <h1 id="hero-title"><span>Think clearly.</span><span class="accent-text">Act confidently.</span></h1>
-            <p class="hero-description">Less impulse. More intention.<br>Turn a timeless Tamil idea into your next better decision.</p>
-            <div class="hero-cta"><a class="button primary" href="#experience">Enter the decision lab <span aria-hidden="true">↗</span></a><a class="hero-secondary" href="#meaning">Discover the Kural <span aria-hidden="true">↓</span></a></div>
-            <div class="hero-meta"><span><b>04</b> Real-life scenarios</span><span><b>02</b> Languages</span><span><b>01</b> Timeless idea</span></div>
-          </div>
-          <aside class="hero-studio" aria-labelledby="studio-heading">
-            <div class="studio-top"><span class="eyebrow">THE CLARITY FRAMEWORK</span><span class="studio-badge">467</span></div>
-            <div class="studio-art" aria-hidden="true"><div class="depth-orbit"><span class="orbit-ring ring-one"></span><span class="orbit-ring ring-two"></span><span class="orbit-core"></span></div><svg class="kolam" viewBox="0 0 480 480" fill="none">
-            <circle cx="240" cy="240" r="207" stroke="currentColor" stroke-dasharray="2 9"/>
-            <circle cx="240" cy="240" r="172" stroke="currentColor" opacity=".35"/>
-            <g stroke="currentColor" stroke-width="1.5">
-              <rect x="129" y="129" width="222" height="222" rx="64" transform="rotate(45 240 240)"/>
-              <rect x="129" y="129" width="222" height="222" rx="64"/>
-              <path d="M240 91C300 91 292 189 240 240S91 300 91 240S189 188 240 240S300 389 240 389S188 291 240 240S389 180 389 240S292 291 240 240S180 91 240 91Z"/>
-              <path d="M240 116C280 116 275 205 240 240S116 280 116 240S205 205 240 240S280 364 240 364S205 275 240 240S364 200 364 240S275 275 240 240S200 116 240 116Z"/>
-            </g>
-            <g fill="currentColor">
-              <circle cx="240" cy="91" r="4"/>
-              <circle cx="389" cy="240" r="4"/>
-              <circle cx="240" cy="389" r="4"/>
-              <circle cx="91" cy="240" r="4"/>
-              <circle cx="160" cy="160" r="3"/>
-              <circle cx="320" cy="160" r="3"/>
-              <circle cx="160" cy="320" r="3"/>
-              <circle cx="320" cy="320" r="3"/>
-            </g>
-          </svg><span id="studio-number">01</span></div>
-            <div class="studio-tabs" role="group" aria-label="Explore the three steps">
-              <button type="button" data-stage="0" aria-pressed="true"><span>01</span><span>Think</span></button>
-              <button type="button" data-stage="1" aria-pressed="false"><span>02</span><span>Decide</span></button>
-              <button type="button" data-stage="2" aria-pressed="false"><span>03</span><span>Act</span></button>
-            </div>
-            <div class="studio-panel" aria-live="polite"><h2 id="studio-heading">Make space for the right questions.</h2><p id="studio-description">What matters? What could happen? What are your alternatives?</p></div>
-            <div class="studio-bottom"><span>Explore each step</span><button type="button" id="next-stage" aria-label="Explore the next step">↗</button></div>
-          </aside>
-          <div class="hero-verse"><div><p class="eyebrow" lang="ta">திருக்குறள் 467</p><blockquote lang="ta">எண்ணித் துணிக கருமம்; துணிந்தபின்<br>எண்ணுவம் என்பது இழுக்கு.</blockquote></div><p>Think before you act.<br>Not after.</p><a href="#meaning" aria-label="Explore the wisdom">↓</a></div>
-        </div>
-      </section>
-      <section class="meaning section-wrap section-space" id="meaning" aria-labelledby="meaning-title">
-        <div class="section-heading reveal">
-          <div>
-            <p class="eyebrow">
-              01 / UNDERSTAND
-            </p>
-            <h2 id="meaning-title">
-              Two lines.
-              <br>
-              <em>
-                A way to move forward.
-              </em>
-            </h2>
-          </div>
-          <p>
-            Thinking and doing belong together.
-            <br>
-            The wisdom is knowing when to move
-            <br>
-            from one to the other.
-          </p>
-        </div>
-        <div class="meaning-grid">
-          <article class="meaning-card reveal">
-            <span class="card-index">
-              01 — BEFORE THE DECISION
-            </span>
-            <h3 lang="ta">
-              எண்ணித் துணிக கருமம்
-            </h3>
-            <p>
-              Before beginning an action, carefully consider the situation, consequences and possible outcomes.
-            </p>
-            <div class="word-flow">
-              <span>
-                Think
-              </span>
-              <b aria-hidden="true">
-                →
-              </b>
-              <span>
-                Analyze
-              </span>
-              <b aria-hidden="true">
-                →
-              </b>
-              <span>
-                Decide
-              </span>
-            </div>
-          </article>
-          <article class="meaning-card dark-card reveal">
-            <span class="card-index">
-              02 — AFTER THE DECISION
-            </span>
-            <h3 lang="ta">
-              துணிந்தபின் எண்ணுவம் என்பது இழுக்கு
-            </h3>
-            <p>
-              After carefully making the decision, repeatedly doubting yourself can lead to weakness, delay and failure.
-            </p>
-            <div class="word-flow">
-              <span>
-                Decision
-              </span>
-              <b aria-hidden="true">
-                →
-              </b>
-              <span>
-                Action
-              </span>
-              <b aria-hidden="true">
-                →
-              </b>
-              <span>
-                Result
-              </span>
-            </div>
-          </article>
-        </div>
-        <p class="meaning-footnote">
-          Confidence grows from preparation. If important new information appears, it is sensible to reconsider.
-        </p>
-      </section>
-      <section class="experience section-space" id="experience" aria-labelledby="game-title">
-        <div class="section-wrap">
-          <div class="section-heading reveal">
-            <div>
-              <p class="eyebrow">
-                02 / PUT IT INTO PRACTICE
-              </p>
-              <h2 id="game-title">
-                What would
-                <em>
-                  you do?
-                </em>
-              </h2>
-            </div>
-            <p>
-              Four everyday moments. Three possible paths.
-              <br>
-              Choose the approach you would take.
-            </p>
-          </div>
-          <noscript>
-            <p class="notice">
-              Enable JavaScript to use the decision game, simulator and challenge. The explanations below remain available to read.
-            </p>
-          </noscript>
-          <div class="game-shell reveal">
-            <aside class="game-sidebar">
-              <span class="eyebrow">
-                THE DECISION LAB
-              </span>
-              <div class="scenario-symbol" id="scenario-symbol" aria-hidden="true">
-                ✎
+    </div>
+  </header>
+
+  <main id="mainContent">
+
+    <!-- 1. HERO SECTION -->
+    <section id="hero" class="hero-section">
+      <div class="hero-perspective-wrapper">
+        <div class="hero-3d-card tilt-card" id="hero3dCard">
+          
+          <div class="hero-split-grid">
+            
+            <!-- Left Column: Sacred Text, Formula & Call to Action -->
+            <div class="hero-text-col">
+              <!-- Palm Leaf & Kolam Decorative Border Ornament -->
+              <div class="card-flourish flourish-top" aria-hidden="true">
+                <span class="flourish-line"></span>
+                <span class="flourish-knot">❖</span>
+                <span class="flourish-line"></span>
               </div>
-              <p id="scenario-category">
-                Student life
-              </p>
-              <div class="scenario-dots" aria-hidden="true">
-                <span>
-                </span>
-                <span>
-                </span>
-                <span>
-                </span>
-                <span>
-                </span>
+
+              <div class="kural-header-badge">
+                <span class="badge-dot"></span>
+                <span class="badge-text">அதிகாரம் 47 : தெரிந்து செயல்வகை | Chapter 47 : Deliberate Action</span>
+                <span class="badge-dot"></span>
               </div>
-              <p id="scenario-count">
-                Scenario 1 of 4
-              </p>
-              <div class="score-block">
-                <span id="score-number">
-                  0
-                </span>
-                <span>
-                  thoughtful choices
-                  <br>
-                  out of
-                  <b id="answered-number">
-                    0
-                  </b>
-                  completed
-                </span>
+
+              <h1 class="hero-title">
+                <span class="kural-number">திருக்குறள் 467</span>
+              </h1>
+
+              <!-- Sacred Kural Couplet -->
+              <div class="kural-couplet-box">
+                <p class="kural-tamil-line line-1">
+                  எண்ணித் துணிக கருமம்; துணிந்தபின்
+                </p>
+                <p class="kural-tamil-line line-2">
+                  எண்ணுவம் என்பது இழுக்கு.
+                </p>
               </div>
-            </aside>
-            <div class="game-content">
-              <div class="game-topline">
-                <span id="scenario-tag">
-                  01 / EDUCATION
-                </span>
-                <span>
-                  Pause. Consider. Choose.
-                </span>
-              </div>
-              <h3 id="scenario-title" tabindex="-1">
-                One evening. Two priorities.
-              </h3>
-              <p class="scenario-description" id="scenario-description">
-                You have an important exam tomorrow. Your friends invite you to play games tonight. What would you do?
-              </p>
-              <details class="thinking-checklist" id="thinking-checklist">
-                <summary><span>Before you choose</span><span class="checklist-count" id="checklist-count">0 / 3</span></summary>
-                <p>Pause for these three questions. Then make your choice.</p>
-                <div id="reflection-prompts"></div>
-              </details>
-              <div class="choices" id="game-choices" role="group" aria-labelledby="scenario-title">
-              </div>
-              <div id="game-result" class="result" role="status" aria-live="polite" hidden>
-              </div>
-              <div class="game-actions">
-                <span id="game-hint">
-                  There is more to a decision than its first impulse.
-                </span>
-                <button type="button" class="button primary" id="next-scenario" hidden>
-                  Next scenario
-                  <span aria-hidden="true">
-                    →
-                  </span>
+
+              <!-- English Transliteration & Pronunciation Button -->
+              <div class="kural-transliteration">
+                <p class="translit-text">
+                  "Ennith Thuniga Karumam; Thunindhapin<br>
+                  Ennuvam Enbathu Izhukku."
+                </p>
+                <button id="pronounceBtn" class="audio-speak-btn" aria-label="Hear pronunciation of Kural 467">
+                  <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor">
+                    <path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/>
+                  </svg>
+                  <span>Listen / ஒலி வடிவம்</span>
                 </button>
               </div>
-            </div>
-          </div>
-          <div class="game-summary" id="game-summary" tabindex="-1" hidden>
-            <p class="eyebrow">
-              EXPERIENCE COMPLETE
-            </p>
-            <h3 id="summary-heading">
-            </h3>
-            <p>
-              Think before you act — not after. Consider what matters, choose a direction, then take the next step.
-            </p>
-            <button type="button" class="button outline" id="restart-game">
-              Try the scenarios again
-              <span aria-hidden="true">
-                ↺
-              </span>
-            </button>
-          </div>
-        </div>
-      </section>
-      <section class="section-wrap section-space simulator" id="simulator" aria-labelledby="simulator-title">
-        <div class="simulator-intro reveal">
-          <p class="eyebrow">
-            03 / MAKE IT PERSONAL
-          </p>
-          <h2 id="simulator-title">
-            Before you
-            <br>
-            <em>
-              decide…
-            </em>
-          </h2>
-          <p>
-            A decision on your mind?
-            <br>
-            Give your thoughts a little space.
-          </p>
-          <p>
-            Work through four questions. Then turn your thinking into a clear decision.
-          </p>
-          <div class="privacy-note">
-            <span aria-hidden="true">
-              ◇
-            </span>
-            <p>
-              Just for you.
-              <br>
-              Your answers stay in this page’s memory. Nothing is sent or saved. Refreshing clears them.
-            </p>
-          </div>
-        </div>
-        <div class="journal reveal">
-          <form id="decision-form">
-            <div class="journal-header">
-              <span>
-                YOUR THOUGHT SPACE
-              </span>
-              <span id="journal-counter">
-                01 / 06
-              </span>
-            </div>
-            <div class="journal-progress" role="progressbar" aria-label="Decision journal progress" aria-valuemin="1" aria-valuemax="6" aria-valuenow="1" id="journal-progress">
-              <span>
-              </span>
-            </div>
-            <div class="journal-step" data-step="0">
-              <p class="eyebrow">
-                START WITH YOUR SITUATION
-              </p>
-              <h3 tabindex="-1">
-                What is on your mind?
-              </h3>
-              <label for="decision-topic">
-                The decision you are considering
-              </label>
-              <input id="decision-topic" name="topic" placeholder="For example, buy a new laptop" maxlength="200" required>
-              <p class="field-help">
-                Name one specific decision. Keep it simple.
-              </p>
-            </div>
-            <div class="journal-step" data-step="1" hidden>
-              <p class="eyebrow">
-                STEP 1 / BENEFITS
-              </p>
-              <h3 tabindex="-1">
-                What are the benefits?
-              </h3>
-              <label for="benefits">
-                What would this choice make possible?
-              </label>
-              <textarea id="benefits" name="benefits" placeholder="Think about what you could gain…" maxlength="2000" required disabled></textarea>
-            </div>
-            <div class="journal-step" data-step="2" hidden>
-              <p class="eyebrow">
-                STEP 2 / RISKS
-              </p>
-              <h3 tabindex="-1">
-                What are the possible risks?
-              </h3>
-              <label for="risks">
-                What could go wrong, or cost you something?
-              </label>
-              <textarea id="risks" name="risks" placeholder="Consider time, money, effort and uncertainty…" maxlength="2000" required disabled></textarea>
-            </div>
-            <div class="journal-step" data-step="3" hidden>
-              <p class="eyebrow">
-                STEP 3 / ALTERNATIVES
-              </p>
-              <h3 tabindex="-1">
-                What alternatives do you have?
-              </h3>
-              <label for="alternatives">
-                Is there another way to meet the same need?
-              </label>
-              <textarea id="alternatives" name="alternatives" placeholder="A smaller step, a different option, or waiting for a reason…" maxlength="2000" required disabled></textarea>
-            </div>
-            <div class="journal-step" data-step="4" hidden>
-              <p class="eyebrow">
-                STEP 4 / CONSEQUENCES
-              </p>
-              <h3 tabindex="-1">
-                What could happen next?
-              </h3>
-              <label for="consequences">
-                What could happen after making this decision?
-              </label>
-              <textarea id="consequences" name="consequences" placeholder="Imagine the immediate outcome and the longer-term effects…" maxlength="2000" required disabled></textarea>
-            </div>
-            <div class="journal-step" data-step="5" hidden>
-              <p class="eyebrow">
-                THOUGHT INTO ACTION
-              </p>
-              <h3 tabindex="-1">
-                Your decision
-              </h3>
-              <details class="review-notes">
-                <summary>
-                  Review your thinking
-                </summary>
-                <dl id="review-content">
-                </dl>
-              </details>
-              <label for="final-decision">
-                What have you decided?
-              </label>
-              <input id="final-decision" name="decision" placeholder="I have decided to…" maxlength="400" required disabled>
-              <p class="field-help">
-                Choose a direction you can act on.
-              </p>
-            </div>
-            <div class="journal-actions">
-              <button type="button" class="text-button" id="journal-back" hidden>
-                ← Back
-              </button>
-              <button type="submit" class="button primary" id="journal-next">
-                Start thinking
-                <span aria-hidden="true">
-                  →
-                </span>
-              </button>
-            </div>
-          </form>
-          <div class="commitment" id="commitment" tabindex="-1" hidden>
-            <span class="commitment-seal" aria-hidden="true">
-              ✓
-            </span>
-            <p class="eyebrow">
-              A THOUGHTFUL STEP FORWARD
-            </p>
-            <h3 lang="ta">
-              துணிந்தபின் எண்ணுவம் என்பது இழுக்கு
-            </h3>
-            <p>
-              You have considered the decision carefully. Now move forward with confidence.
-            </p>
-            <blockquote id="committed-decision">
-            </blockquote>
-            <p class="field-help">
-              Choose one small action to begin. Revisit your plan if the facts change.
-            </p>
-            <div class="commitment-actions">
-              <button type="button" class="text-button" id="edit-decision">
-                ← Review or edit
-              </button>
-              <button type="button" class="button outline" id="new-decision">
-                Start a new decision
-              </button>
-            </div>
-          </div>
-        </div>
-      </section>
-      <section class="comparison section-space" id="comparison" aria-labelledby="comparison-title">
-        <div class="section-wrap">
-          <div class="center-heading reveal">
-            <p class="eyebrow">
-              04 / NOTICE THE DIFFERENCE
-            </p>
-            <h2 id="comparison-title">
-              Same situation.
-              <br>
-              <em>
-                A different way through.
-              </em>
-            </h2>
-          </div>
-          <div class="comparison-grid">
-            <article class="path-card reactive reveal">
-              <div class="path-heading">
-                <span aria-hidden="true">
-                  ↯
-                </span>
-                <h3>
-                  React without thinking
-                </h3>
+
+              <!-- The Core Formula -->
+              <div class="core-formula-container">
+                <div class="formula-capsule">
+                  <span class="formula-node">THINK <small>எண்ணுக</small></span>
+                  <span class="formula-arrow">➔</span>
+                  <span class="formula-node">DECIDE <small>துணிக</small></span>
+                  <span class="formula-arrow">➔</span>
+                  <span class="formula-node highlight">ACT <small>செய்க</small></span>
+                </div>
+                <p class="hero-subline">
+                  "Great decisions begin with thought, not regret."
+                </p>
+                <p class="hero-core-tamil">
+                  — செயலுக்கு முன் ஆழ்ந்த சிந்தனை; முடிவுக்குப் பின் தயக்கமற்ற உறுதி! —
+                </p>
               </div>
-              <ol class="path-steps">
-                <li>
-                  Situation
-                </li>
-                <li>
-                  Emotion
-                </li>
-                <li>
-                  Immediate action
-                </li>
-                <li>
-                  Possible regret
-                </li>
-              </ol>
-              <p>
-                A quick reaction can overlook what matters.
-              </p>
-            </article>
-            <article class="path-card thoughtful reveal">
-              <div class="path-heading">
-                <span aria-hidden="true">
-                  ◎
-                </span>
-                <h3>
-                  Think before acting
-                </h3>
+
+              <!-- Call to Action Buttons -->
+              <div class="hero-actions">
+                <a href="#meaning" class="btn btn-primary btn-glow" id="heroCtaBtn">
+                  <span class="btn-text">Experience the Kural</span>
+                  <span class="btn-subtext">குறளை அனுபவித்து உணர்க</span>
+                  <svg class="btn-arrow" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.5">
+                    <line x1="12" y1="5" x2="12" y2="19"></line>
+                    <polyline points="19 12 12 19 5 12"></polyline>
+                  </svg>
+                </a>
+
+                <a href="#simulator" class="btn btn-secondary">
+                  <span>Try Simulator</span>
+                  <small>முடிவு சோதிப்பான்</small>
+                </a>
               </div>
-              <ol class="path-steps">
-                <li>
-                  Situation
-                </li>
-                <li>
-                  Think
-                </li>
-                <li>
-                  Analyze
-                </li>
-                <li>
-                  Decide
-                </li>
-                <li>
-                  Act
-                </li>
-                <li>
-                  Better outcome
-                  <small>
-                    more likely, never guaranteed
-                  </small>
-                </li>
-              </ol>
+            </div>
+
+            <!-- Right Column: Hero Visual Illustration -->
+            <div class="hero-visual-col">
+              <div class="hero-image-frame">
+                <img src="images/hero.png" alt="A thoughtful person standing at a crossroads contemplating paths under a golden sunrise with Tamil temple motifs, symbolizing 'Think before you act'" class="hero-image" loading="eager">
+                <div class="image-glass-caption">
+                  <span class="caption-icon">🧭</span>
+                  <span class="caption-text"><strong>Stand at the Crossroads:</strong> Deliberate before choosing your direction.</span>
+                </div>
+              </div>
+            </div>
+
+          </div>
+
+          <!-- Flourish Bottom -->
+          <div class="card-flourish flourish-bottom" aria-hidden="true">
+            <span class="flourish-line"></span>
+            <span class="flourish-knot">❖</span>
+            <span class="flourish-line"></span>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- Scroll Down Indicator -->
+      <a href="#meaning" class="scroll-down-indicator" aria-label="Scroll to explanation">
+        <span class="mouse-icon">
+          <span class="mouse-wheel"></span>
+        </span>
+        <span class="indicator-label">கீழே தொடரவும்</span>
+      </a>
+    </section>
+
+    <!-- 2. UNDERSTAND THE KURAL (EXPLANATION SECTION) -->
+    <section id="meaning" class="section meaning-section">
+      <div class="section-container">
+        
+        <div class="section-badge-center">
+          <span class="badge-text">ஞானப் பகுப்பாய்வு • Deep Anatomy</span>
+        </div>
+
+        <h2 class="section-title">
+          The Two Halves of Timeless Wisdom
+        </h2>
+        <p class="section-intro">
+          Valluvar divides the journey of every action into two distinct, sacred laws.
+          One governs your mind <em>before</em> deciding; the second protects your resolve <em>afterwards</em>.
+        </p>
+
+        <!-- 3D Perspective Grid for Part 1 & Part 2 -->
+        <div class="halves-grid">
+          
+          <!-- PART 1 CARD -->
+          <div class="half-card tilt-card" id="part1Card" data-part="1">
+            <div class="half-header part-1-theme">
+              <span class="part-number">பகுதி 01 • PART 1</span>
+              <span class="part-icon">⚖️</span>
+            </div>
+
+            <div class="half-body">
+              <div class="card-illustration-wrap">
+                <img src="images/planning.png" alt="A scholar thoughtfully weighing pros and cons, analyzing data charts and planning options" class="card-section-img" loading="lazy">
+              </div>
+
+              <h3 class="half-tamil-verse">
+                "எண்ணித் துணிக கருமம்"
+              </h3>
+              <p class="half-translit">Ennith Thuniga Karumam</p>
+
+              <div class="meaning-box">
+                <span class="meaning-label">Sacred Principle:</span>
+                <p class="meaning-text">
+                  "Before beginning any action, carefully evaluate every dimension — the nature of the task, resources required, potential obstacles, and future consequences."
+                </p>
+                <p class="meaning-tamil">
+                  செய்யத் தொடங்கும் முன்னரே நன்மை, தீமை, சாதக பாதகங்களை மிக நுட்பமாக ஆராய்ந்து தெளிவு பெறுக.
+                </p>
+              </div>
+
+              <!-- Visual Flow 1 -->
+              <div class="flow-track track-1">
+                <div class="flow-step">
+                  <span class="step-num">1</span>
+                  <div class="step-details">
+                    <strong>Think</strong>
+                    <small>சிந்தி</small>
+                  </div>
+                </div>
+                <span class="track-connector">➔</span>
+                <div class="flow-step">
+                  <span class="step-num">2</span>
+                  <div class="step-details">
+                    <strong>Analyze</strong>
+                    <small>ஆராய்</small>
+                  </div>
+                </div>
+                <span class="track-connector">➔</span>
+                <div class="flow-step">
+                  <span class="step-num">3</span>
+                  <div class="step-details">
+                    <strong>Decide</strong>
+                    <small>துணிவு கொள்</small>
+                  </div>
+                </div>
+              </div>
+
+              <div class="principle-verdict good">
+                <span class="verdict-icon">✓</span>
+                <span>Rule: Never rush into action on pure emotion or whim.</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- PART 2 CARD -->
+          <div class="half-card tilt-card" id="part2Card" data-part="2">
+            <div class="half-header part-2-theme">
+              <span class="part-number">பகுதி 02 • PART 2</span>
+              <span class="part-icon">🛡️</span>
+            </div>
+
+            <div class="half-body">
+              <div class="card-illustration-wrap">
+                <img src="images/confidence.png" alt="A confident person striding boldly forward along a golden path of achievement, overcoming dark thorns of doubt and fear" class="card-section-img" loading="lazy">
+              </div>
+
+              <h3 class="half-tamil-verse">
+                "துணிந்தபின் எண்ணுவம் என்பது இழுக்கு"
+              </h3>
+              <p class="half-translit">Thunindhapin Ennuvam Enbathu Izhukku</p>
+
+              <div class="meaning-box">
+                <span class="meaning-label">Sacred Warning:</span>
+                <p class="meaning-text">
+                  "After carefully making the decision, to then say 'Let me reconsider or rethink' is a grave mistake that breeds weakness, delay, and failure."
+                </p>
+                <p class="meaning-tamil">
+                  நன்கு ஆராய்ந்து தொடங்கிய பிறகு, 'இதை மீண்டும் யோசிப்போம்' என்று தயங்கி நிற்பது பெருங் குற்றமும் பலவீனமும் ஆகும்.
+                </p>
+              </div>
+
+              <!-- Visual Flow 2 -->
+              <div class="flow-track track-2">
+                <div class="flow-step">
+                  <span class="step-num">1</span>
+                  <div class="step-details">
+                    <strong>Decision</strong>
+                    <small>துணிந்த முடிவு</small>
+                  </div>
+                </div>
+                <span class="track-connector">➔</span>
+                <div class="flow-step">
+                  <span class="step-num">2</span>
+                  <div class="step-details">
+                    <strong>Action</strong>
+                    <small>முழு முனைப்பு</small>
+                  </div>
+                </div>
+                <span class="track-connector">➔</span>
+                <div class="flow-step">
+                  <span class="step-num">3</span>
+                  <div class="step-details">
+                    <strong>Result</strong>
+                    <small>வெற்றி இலக்கு</small>
+                  </div>
+                </div>
+              </div>
+
+              <div class="principle-verdict warn">
+                <span class="verdict-icon">⚠</span>
+                <span>Warning: Second-guessing after commit kills execution.</span>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Interactive Wisdom Quote -->
+        <div class="interactive-wisdom-quote">
+          <div class="quote-border-pattern"></div>
+          <p class="quote-punchline">
+            "Thinking <em>before</em> deciding is wisdom.<br>
+            Thinking <em>instead of acting</em> is hesitation."
+          </p>
+          <div class="quote-author">— திருவள்ளுவர் (Thiruvalluvar)</div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- 3. MAIN INTERACTIVE DECISION GAME -->
+    <section id="game" class="section game-section">
+      <div class="section-container">
+        
+        <div class="section-badge-center">
+          <span class="badge-text">ஊடாடும் வாழ்க்கைச் சோதனை • Interactive Lab</span>
+        </div>
+
+        <h2 class="section-title">
+          "What Would You Do?"
+        </h2>
+        <p class="section-intro">
+          Put yourself in real-life dilemmas. Select an option to see whether your instincts align with Kural 467 or succumb to impulsiveness or paralysis.
+        </p>
+
+        <!-- Scenario Game Station Container -->
+        <div class="game-station-container">
+          
+          <!-- Top Station Header: Category & Progress Meter -->
+          <div class="station-meta-bar">
+            <div class="scenario-category-pill" id="scenarioCategoryPill">
+              <span class="pill-icon" id="scenarioCategoryIcon">🎓</span>
+              <span class="pill-title" id="scenarioCategoryTitle">Student Life</span>
+            </div>
+
+            <div class="game-progress-wrapper">
+              <div class="progress-label">
+                <span>நிலை <span id="currentScenarioIndex">1</span> / <span id="totalScenariosCount">4</span></span>
+              </div>
+              <div class="progress-bar-track">
+                <div class="progress-bar-fill" id="progressBarFill" style="width: 25%;"></div>
+              </div>
+            </div>
+
+            <div class="wisdom-score-badge" id="wisdomScoreBadge">
+              <span class="score-icon">✨</span>
+              <span class="score-value" id="wisdomScoreValue">Valluvar Score: 0</span>
+            </div>
+          </div>
+
+          <!-- Scenario Card with 3D Tilt Frame & Scenario Illustration -->
+          <div class="scenario-card-3d tilt-card" id="scenarioCard3D">
+            
+            <div class="scenario-split-layout">
+              
+              <!-- Left Column: Scenario Dynamic Illustration -->
+              <div class="scenario-image-col">
+                <div class="scenario-image-frame">
+                  <img id="scenarioDynamicImg" src="images/scenario-student.png" alt="Illustration representing current scenario dilemma" class="scenario-display-img">
+                  <div class="scenario-image-overlay">
+                    <span id="scenarioImageBadge" class="image-badge">Case Visual</span>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Right Column: Content & Options -->
+              <div class="scenario-content-col">
+                <div class="scenario-header">
+                  <span class="scenario-badge" id="scenarioNumTag">SCENARIO 01</span>
+                  <h3 class="scenario-headline" id="scenarioQuestion">
+                    Loading situation...
+                  </h3>
+                  <p class="scenario-context-desc" id="scenarioContext">
+                    Loading situation context...
+                  </p>
+                </div>
+
+                <!-- Options Grid: 3 Options -->
+                <div class="options-container" id="optionsContainer">
+                  <!-- Dynamically populated via script.js -->
+                </div>
+              </div>
+
+            </div>
+
+            <!-- Dynamic Result Reveal Tray (Appears with 3D flip/slide after click) -->
+            <div class="decision-result-tray hidden" id="decisionResultTray">
+              <div class="result-card-inner" id="resultCardInner">
+                <div class="result-status-header">
+                  <div class="result-symbol" id="resultSymbol">✅</div>
+                  <div class="result-status-texts">
+                    <h4 class="result-title" id="resultTitle">Result Heading</h4>
+                    <span class="result-subtitle" id="resultSubtitle">Sub-evaluation</span>
+                  </div>
+                </div>
+
+                <div class="result-explanation" id="resultExplanation">
+                  Explanation body text.
+                </div>
+
+                <div class="kural-connect-callout" id="resultKuralCallout">
+                  <strong>குறள் நெறி விளக்கம் (Wisdom Link):</strong>
+                  <p id="resultKuralNote">Specific teaching aligned to Kural 467.</p>
+                </div>
+
+                <div class="result-action-bar">
+                  <button id="nextScenarioBtn" class="btn btn-primary">
+                    <span id="nextBtnText">Next Scenario</span>
+                    <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2">
+                      <line x1="5" y1="12" x2="19" y2="12"></line>
+                      <polyline points="12 5 19 12 12 19"></polyline>
+                    </svg>
+                  </button>
+                  <button id="retryScenarioBtn" class="btn btn-secondary">
+                    <span>Try Again</span>
+                  </button>
+                </div>
+              </div>
+            </div>
+
+          </div>
+
+          <!-- Quick Scenario Selector Tabs -->
+          <div class="scenario-pills-bar" id="scenarioTabsBar">
+            <!-- Dynamically populated buttons (Scenario 1, 2, 3, 4) -->
+          </div>
+
+        </div>
+
+      </div>
+    </section>
+
+    <!-- 4. DECISION SIMULATOR -->
+    <section id="simulator" class="section simulator-section">
+      <div class="section-container">
+        
+        <div class="section-badge-center">
+          <span class="badge-text">முடிவு கூடம் • Decision Simulator</span>
+        </div>
+
+        <h2 class="section-title">
+          "Before You Decide..."
+        </h2>
+        <p class="section-intro">
+          Facing a real choice in your life right now? Use Thiruvalluvar's four-fold analytical framework to clarify your thoughts, eliminate fear, and forge unwavering commitment.
+        </p>
+
+        <div class="simulator-card-wrapper">
+          <div class="simulator-card tilt-card" id="simCard">
+            
+            <!-- Step Navigation Progress -->
+            <div class="sim-stepper">
+              <div class="sim-step-dot active" data-step="0">
+                <span class="dot-num">🎯</span>
+                <span class="dot-label">The Dilemma</span>
+              </div>
+              <div class="sim-step-line"></div>
+              <div class="sim-step-dot" data-step="1">
+                <span class="dot-num">1</span>
+                <span class="dot-label">Benefits</span>
+              </div>
+              <div class="sim-step-line"></div>
+              <div class="sim-step-dot" data-step="2">
+                <span class="dot-num">2</span>
+                <span class="dot-label">Risks</span>
+              </div>
+              <div class="sim-step-line"></div>
+              <div class="sim-step-dot" data-step="3">
+                <span class="dot-num">3</span>
+                <span class="dot-label">Alternatives</span>
+              </div>
+              <div class="sim-step-line"></div>
+              <div class="sim-step-dot" data-step="4">
+                <span class="dot-num">4</span>
+                <span class="dot-label">Consequences</span>
+              </div>
+              <div class="sim-step-line"></div>
+              <div class="sim-step-dot" data-step="5">
+                <span class="dot-num">5</span>
+                <span class="dot-label">Commitment</span>
+              </div>
+            </div>
+
+            <!-- Simulator Form Body -->
+            <div class="sim-form-container">
+              
+              <!-- STEP 0: The Choice -->
+              <div class="sim-pane active" id="simStep0">
+                <div class="pane-header">
+                  <span class="step-tag">Initial Consideration • தொடக்கம்</span>
+                  <h3>What decision are you currently pondering?</h3>
+                  <p class="pane-hint">Enter the question or crossroad you are evaluating today.</p>
+                </div>
+                <div class="form-group">
+                  <label for="simDilemmaInput" class="form-label">Your Pending Decision:</label>
+                  <input type="text" id="simDilemmaInput" class="form-input text-field" placeholder="e.g., Buy a new laptop, Change my study field, Launch a startup project..." maxlength="120" value="Invest in a comprehensive skill development program">
+                  <div class="quick-samples">
+                    <span class="samples-title">Quick presets:</span>
+                    <button type="button" class="preset-pill" data-preset="Purchase an expensive new smartphone">New Smartphone</button>
+                    <button type="button" class="preset-pill" data-preset="Switch to a new high-growth career path">Switch Career</button>
+                    <button type="button" class="preset-pill" data-preset="Wake up at 5:30 AM every morning for workouts">Morning Fitness</button>
+                  </div>
+                </div>
+                <div class="pane-footer">
+                  <div></div>
+                  <button type="button" class="btn btn-primary sim-next-btn" data-target="1">
+                    <span>Begin Deliberation</span>
+                    <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"></polyline></svg>
+                  </button>
+                </div>
+              </div>
+
+              <!-- STEP 1: Benefits -->
+              <div class="sim-pane" id="simStep1">
+                <div class="pane-header">
+                  <span class="step-tag">Step 1 of 4 • நன்மைகள்</span>
+                  <h3>What are the real benefits of this decision?</h3>
+                  <p class="pane-hint">What positive outcomes or long-term growth will it bring you?</p>
+                </div>
+                <div class="form-group">
+                  <label for="simBenefitsInput" class="form-label">Key Benefits & Gains:</label>
+                  <textarea id="simBenefitsInput" class="form-input textarea-field" rows="3" placeholder="List the tangible and intangible gains you expect..."></textarea>
+                </div>
+                <div class="pane-footer">
+                  <button type="button" class="btn btn-secondary sim-prev-btn" data-target="0">Back</button>
+                  <button type="button" class="btn btn-primary sim-next-btn" data-target="2">Next: Assess Risks</button>
+                </div>
+              </div>
+
+              <!-- STEP 2: Risks -->
+              <div class="sim-pane" id="simStep2">
+                <div class="pane-header">
+                  <span class="step-tag">Step 2 of 4 • அபாயங்கள்</span>
+                  <h3>What are the possible risks and downsides?</h3>
+                  <p class="pane-hint">Every decision has a cost. Be brutally honest with yourself.</p>
+                </div>
+                <div class="form-group">
+                  <label for="simRisksInput" class="form-label">Potential Risks & Costs:</label>
+                  <textarea id="simRisksInput" class="form-input textarea-field" rows="3" placeholder="What could go wrong? What time, money, or energy might be lost?"></textarea>
+                </div>
+                <div class="pane-footer">
+                  <button type="button" class="btn btn-secondary sim-prev-btn" data-target="1">Back</button>
+                  <button type="button" class="btn btn-primary sim-next-btn" data-target="3">Next: Check Alternatives</button>
+                </div>
+              </div>
+
+              <!-- STEP 3: Alternatives -->
+              <div class="sim-pane" id="simStep3">
+                <div class="pane-header">
+                  <span class="step-tag">Step 3 of 4 • மாற்று வழிகள்</span>
+                  <h3>What alternatives and options do you have?</h3>
+                  <p class="pane-hint">Is there a smarter, simpler, or less expensive pathway available?</p>
+                </div>
+                <div class="form-group">
+                  <label for="simAlternativesInput" class="form-label">Available Alternatives:</label>
+                  <textarea id="simAlternativesInput" class="form-input textarea-field" rows="3" placeholder="Could you borrow, delay, test on a small scale, or choose another route?"></textarea>
+                </div>
+                <div class="pane-footer">
+                  <button type="button" class="btn btn-secondary sim-prev-btn" data-target="2">Back</button>
+                  <button type="button" class="btn btn-primary sim-next-btn" data-target="4">Next: Future Consequences</button>
+                </div>
+              </div>
+
+              <!-- STEP 4: Long-Term Consequences -->
+              <div class="sim-pane" id="simStep4">
+                <div class="pane-header">
+                  <span class="step-tag">Step 4 of 4 • பின்விளைவுகள்</span>
+                  <h3>What could happen 6 months or 2 years from now?</h3>
+                  <p class="pane-hint">Envision the second and third-order effects of this choice.</p>
+                </div>
+                <div class="form-group">
+                  <label for="simConsequencesInput" class="form-label">Downstream Outcomes:</label>
+                  <textarea id="simConsequencesInput" class="form-input textarea-field" rows="3" placeholder="Will you be thankful for this step 1 year from now? How will it shape you?"></textarea>
+                </div>
+                <div class="pane-footer">
+                  <button type="button" class="btn btn-secondary sim-prev-btn" data-target="3">Back</button>
+                  <button type="button" class="btn btn-primary sim-next-btn" data-target="5">Next: Final Decision</button>
+                </div>
+              </div>
+
+              <!-- STEP 5: Final Determination -->
+              <div class="sim-pane" id="simStep5">
+                <div class="pane-header">
+                  <span class="step-tag">The Moment of Truth • இறுதித் துணிவு</span>
+                  <h3>What have you decided?</h3>
+                  <p class="pane-hint">You have analyzed benefits, risks, alternatives, and outcomes. State your firm resolution.</p>
+                </div>
+                <div class="form-group">
+                  <label for="simFinalDecisionInput" class="form-label">Your Definitive Decision:</label>
+                  <input type="text" id="simFinalDecisionInput" class="form-input text-field" placeholder="e.g., I commit to proceeding with full focus and discipline." value="I will proceed fully prepared, giving my 100% effort without hesitation.">
+                </div>
+                <div class="pane-footer center-footer">
+                  <button type="button" id="sealDecisionBtn" class="btn btn-primary btn-glow btn-large">
+                    <span class="btn-icon">📜</span>
+                    <span class="btn-text">I Have Thought. Now I Decide.</span>
+                    <small class="btn-subtext">எண்ணித் துணிந்தேன்! இனி தயங்கேன்!</small>
+                  </button>
+                </div>
+              </div>
+
+            </div>
+
+            <!-- REVEALED 3D WISDOM PARCHMENT (Revealed on click) -->
+            <div class="sealed-scroll-overlay hidden" id="sealedScrollOverlay">
+              <div class="sealed-scroll-card" id="sealedScrollCard">
+                <div class="parchment-texture"></div>
+                <div class="seal-stamp" aria-hidden="true">
+                  <span>ௐ</span>
+                  <small>துணிவு</small>
+                </div>
+
+                <div class="scroll-content">
+                  <span class="scroll-badge">திருவள்ளுவர் உறுதிமொழி • PLEDGE OF RESOLVE</span>
+                  
+                  <div class="scroll-kural-quote">
+                    <p class="tamil-quote-line">
+                      "துணிந்தபின் எண்ணுவம் என்பது இழுக்கு"
+                    </p>
+                    <p class="quote-meaning-line">
+                      "You have considered the decision carefully. Now move forward with confidence."
+                    </p>
+                  </div>
+
+                  <div class="scroll-summary-box">
+                    <div class="summary-item">
+                      <span class="summary-label">Your Decision:</span>
+                      <strong class="summary-value" id="summaryDecisionText">--</strong>
+                    </div>
+                    <div class="summary-grid">
+                      <div>
+                        <span class="summary-sublabel">Analyzed Benefits:</span>
+                        <p id="summaryBenefitsText">--</p>
+                      </div>
+                      <div>
+                        <span class="summary-sublabel">Calculated Risks:</span>
+                        <p id="summaryRisksText">--</p>
+                      </div>
+                    </div>
+                  </div>
+
+                  <p class="scroll-blessing">
+                    ✨ No more second guessing. No more paralysis. You have honoured the wisdom of <strong>Thirukkural 467</strong>. Step into execution with peace and fire.
+                  </p>
+
+                  <div class="scroll-actions">
+                    <button type="button" class="btn btn-primary" id="resetSimBtn">
+                      <span>Simulate Another Decision</span>
+                    </button>
+                    <button type="button" class="btn btn-secondary" id="copyResolutionBtn">
+                      <span>Copy My Resolution</span>
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- 5. THINK VS REACT COMPARISON SECTION -->
+    <section id="comparison" class="section comparison-section">
+      <div class="section-container">
+        
+        <div class="section-badge-center">
+          <span class="badge-text">விளைவுகளின் ஒப்பீடு • Path Analysis</span>
+        </div>
+
+        <h2 class="section-title">
+          Two Paths of Human Action
+        </h2>
+        <p class="section-intro">
+          Observe how the mind creates either a spiral of regret or an architecture of triumph depending on whether thought precedes action.
+        </p>
+
+        <!-- Two Columns with 3D Staggered Cascade & Meaningful Illustrations -->
+        <div class="comparison-split-grid">
+          
+          <!-- Path A: Impulsive Reaction -->
+          <div class="path-column path-impulsive tilt-card">
+            
+            <div class="path-visual-header">
+              <img src="images/react-impulsive.png" alt="An illustration of a figure rushing hastily into chaotic red winds and tripping with sudden regret, showing impulsive reaction" class="path-illustration-img" loading="lazy">
+            </div>
+
+            <div class="column-header">
+              <span class="column-pill bad">❌ The Impulsive Spiral</span>
+              <h3>React Without Thinking</h3>
+              <p>Action triggered by sudden emotion or instinct</p>
+            </div>
+
+            <div class="path-steps-flow">
+              
+              <div class="path-node" data-order="1">
+                <div class="node-bullet bad">1</div>
+                <div class="node-content">
+                  <h4>Situation <small>(சூழல்)</small></h4>
+                  <p>Unexpected event, urgency, provocation, or desire arises.</p>
+                </div>
+              </div>
+              <div class="path-connector bad">↓</div>
+
+              <div class="path-node" data-order="2">
+                <div class="node-bullet bad">2</div>
+                <div class="node-content">
+                  <h4>Emotion <small>(உணர்ச்சி வேகம்)</small></h4>
+                  <p>Anger, fear, greed, FOMO, or thrill takes over the prefrontal cortex.</p>
+                </div>
+              </div>
+              <div class="path-connector bad">↓</div>
+
+              <div class="path-node" data-order="3">
+                <div class="node-bullet bad">3</div>
+                <div class="node-content">
+                  <h4>Immediate Action <small>(விளையறியாச் செயல்)</small></h4>
+                  <p>Knee-jerk response made without checking feasibility or cost.</p>
+                </div>
+              </div>
+              <div class="path-connector bad">↓</div>
+
+              <div class="path-node end-node bad" data-order="4">
+                <div class="node-bullet bad">⚠️</div>
+                <div class="node-content">
+                  <h4>Possible Regret <small>(பின் வருந்துதல் - இழுக்கு)</small></h4>
+                  <p>Unforeseen blunders, wasted capital, damaged trust, and guilt.</p>
+                </div>
+              </div>
+
+            </div>
+          </div>
+
+          <!-- Path B: Thirukkural 467 Deliberate Action -->
+          <div class="path-column path-wisdom tilt-card">
+            
+            <div class="path-visual-header">
+              <img src="images/think-calm.png" alt="An illustration of a serene composed person walking steadily up stone steps bathed in golden sunlight of wisdom, showing deliberate thought before confident action" class="path-illustration-img" loading="lazy">
+            </div>
+
+            <div class="column-header">
+              <span class="column-pill good">✅ The Valluvar Framework</span>
+              <h3>Think Before Acting</h3>
+              <p>Action guided by deliberate analysis and firm resolve</p>
+            </div>
+
+            <div class="path-steps-flow">
+              
+              <div class="path-node" data-order="1">
+                <div class="node-bullet good">1</div>
+                <div class="node-content">
+                  <h4>Situation <small>(சூழல்)</small></h4>
+                  <p>A challenge or tempting opportunity presents itself.</p>
+                </div>
+              </div>
+              <div class="path-connector good">↓</div>
+
+              <div class="path-node" data-order="2">
+                <div class="node-bullet good">2</div>
+                <div class="node-content">
+                  <h4>Think <small>(எண்ணுக)</small></h4>
+                  <p>Pause impulse. Calm the emotions and step back to observe clearly.</p>
+                </div>
+              </div>
+              <div class="path-connector good">↓</div>
+
+              <div class="path-node" data-order="3">
+                <div class="node-bullet good">3</div>
+                <div class="node-content">
+                  <h4>Analyze <small>(ஆராய்க)</small></h4>
+                  <p>Weigh benefits, potential risks, alternatives, and side-effects.</p>
+                </div>
+              </div>
+              <div class="path-connector good">↓</div>
+
+              <div class="path-node" data-order="4">
+                <div class="node-bullet good">4</div>
+                <div class="node-content">
+                  <h4>Decide <small>(துணிக)</small></h4>
+                  <p>Pick the optimal path with clarity and total conviction.</p>
+                </div>
+              </div>
+              <div class="path-connector good">↓</div>
+
+              <div class="path-node" data-order="5">
+                <div class="node-bullet good">5</div>
+                <div class="node-content">
+                  <h4>Act Confidently <small>(தொடங்குக)</small></h4>
+                  <p>Execute without crippling second-guesses or regret.</p>
+                </div>
+              </div>
+              <div class="path-connector good">↓</div>
+
+              <div class="path-node end-node good" data-order="6">
+                <div class="node-bullet good">🏆</div>
+                <div class="node-content">
+                  <h4>Better Outcome <small>(வெற்றி & மன நிம்மதி)</small></h4>
+                  <p>Maximum chance of victory and complete internal peace of mind.</p>
+                </div>
+              </div>
+
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+    </section>
+
+    <!-- 6. 10-SECOND DECISION CHALLENGE -->
+    <section id="challenge" class="section challenge-section">
+      <div class="section-container">
+        
+        <div class="section-badge-center">
+          <span class="badge-text">வினாடிச் சவால் • High-Stakes Trial</span>
+        </div>
+
+        <h2 class="section-title">
+          The 10-Second Decision Challenge
+        </h2>
+        <p class="section-intro">
+          Test your decision temperament under the pressure of time!
+          <strong>Warning:</strong> Do not choose impulsively! Read carefully, think deeply, and then decide before the timer runs out.
+        </p>
+
+        <!-- Challenge Arena Card -->
+        <div class="challenge-arena tilt-card" id="challengeArena">
+          
+          <!-- Timer Display Header -->
+          <div class="timer-display-panel">
+            
+            <div class="countdown-dial-wrapper">
+              <svg class="dial-svg" viewBox="0 0 120 120">
+                <circle class="dial-track" cx="60" cy="60" r="50"></circle>
+                <circle class="dial-progress" id="dialProgress" cx="60" cy="60" r="50"></circle>
+              </svg>
+              <div class="dial-center">
+                <span class="dial-seconds" id="dialSeconds">10</span>
+                <span class="dial-unit">seconds</span>
+              </div>
+            </div>
+
+            <div class="challenge-guideline-box">
+              <span class="guideline-rule">⚖️ The Valluvar Golden Balance</span>
               <p>
-                A considered choice gives your action a purpose.
+                • Answering before 3 seconds = <strong>Impulsive Reactivity</strong> (No thought)<br>
+                • Answering between 4 to 8 seconds = <strong>Calibrated Deliberation</strong> (Kural 467)<br>
+                • Letting time run out = <strong>Crippling Overthinking</strong> (Izhukku)
               </p>
-            </article>
-          </div>
-        </div>
-      </section>
-      <section class="section-wrap section-space applications" aria-labelledby="applications-title">
-        <div class="section-heading reveal">
-          <div>
-            <p class="eyebrow">
-              05 / TIMELESS, NOT DISTANT
-            </p>
-            <h2 id="applications-title">
-              Old wisdom.
-              <br>
-              <em>
-                Your everyday world.
-              </em>
-            </h2>
-          </div>
-          <p>
-            From the choices on your screen
-            <br>
-            to the direction of your future.
-          </p>
-        </div>
-        <div class="application-grid">
-          <article class="application-card reveal">
-            <span class="application-icon" aria-hidden="true">
-              ✎
-            </span>
-            <span class="application-number">
-              01
-            </span>
-            <h3>
-              Education
-            </h3>
-            <p>
-              Choose courses and learning paths carefully. Match them to your interests, goals and available time.
-            </p>
-<details class="application-detail"><summary>Ask yourself <span aria-hidden="true">+</span></summary><p>Would this course build a skill I actually want to use?</p></details>
-          </article>
-          <article class="application-card reveal">
-            <span class="application-icon" aria-hidden="true">
-              ↗
-            </span>
-            <span class="application-number">
-              02
-            </span>
-            <h3>
-              Career
-            </h3>
-            <p>
-              Analyze opportunities before accepting them. Consider learning, experience and future value.
-            </p>
-<details class="application-detail"><summary>Ask yourself <span aria-hidden="true">+</span></summary><p>Which opportunity fits both my goals and my current needs?</p></details>
-          </article>
-          <article class="application-card reveal">
-            <span class="application-icon" aria-hidden="true">
-              ₹
-            </span>
-            <span class="application-number">
-              03
-            </span>
-            <h3>
-              Money
-            </h3>
-            <p>
-              Think before spending or investing. Consider need, budget, alternatives and risk.
-            </p>
-<details class="application-detail"><summary>Ask yourself <span aria-hidden="true">+</span></summary><p>If this were not on sale, would I still need it?</p></details>
-          </article>
-          <article class="application-card reveal">
-            <span class="application-icon" aria-hidden="true">
-              ♡
-            </span>
-            <span class="application-number">
-              04
-            </span>
-            <h3>
-              Relationships
-            </h3>
-            <p>
-              Understand situations before reacting emotionally. Listen first, then choose your words.
-            </p>
-<details class="application-detail"><summary>Ask yourself <span aria-hidden="true">+</span></summary><p>What might I be missing from the other person’s perspective?</p></details>
-          </article>
-          <article class="application-card reveal">
-            <span class="application-icon" aria-hidden="true">
-              ⌘
-            </span>
-            <span class="application-number">
-              05
-            </span>
-            <h3>
-              Technology
-            </h3>
-            <p>
-              Consider consequences before posting or sharing information. Check its truth and respect privacy.
-            </p>
-<details class="application-detail"><summary>Ask yourself <span aria-hidden="true">+</span></summary><p>Would I share this if my name were attached to its consequences?</p></details>
-          </article>
-          <article class="application-card reveal">
-            <span class="application-icon" aria-hidden="true">
-              ⚑
-            </span>
-            <span class="application-number">
-              06
-            </span>
-            <h3>
-              Leadership
-            </h3>
-            <p>
-              Evaluate risks before making decisions affecting others. Hear different views, then lead with clarity.
-            </p>
-<details class="application-detail"><summary>Ask yourself <span aria-hidden="true">+</span></summary><p>Who will be affected, and whose input have I not heard?</p></details>
-          </article>
-        </div>
-      </section>
-      <section class="challenge-section section-wrap" id="challenge" aria-labelledby="challenge-title">
-        <div class="challenge-card reveal">
-          <div class="challenge-intro">
-            <p class="eyebrow">
-              06 / A MOMENT OF CLARITY
-            </p>
-            <h2 id="challenge-title">
-              Ten seconds.
-              <br>
-              <em>
-                One thoughtful choice.
-              </em>
-            </h2>
-            <p>
-              Do not choose immediately.
-              <br>
-              Read. Think. Then decide.
-            </p>
-            <div class="timer" id="timer" role="timer" aria-label="10 seconds remaining">
-              <span id="timer-number">
-                10
-              </span>
-              <span>
-                SECONDS
-              </span>
             </div>
-            <label class="untimed-label">
-              <input type="checkbox" id="untimed">
-              Practice without a time limit
-            </label>
-            <p class="timer-note">
-              A practice exercise, not a rule for real decisions. Important choices may need much longer.
-            </p>
+
           </div>
-          <div class="challenge-content">
-            <span class="challenge-tag">
-              THE GROUP CHAT
-            </span>
-            <h3>
-              A message says tomorrow’s exam is cancelled. There is no official source.
+
+          <!-- Challenge Dilemma Box -->
+          <div class="challenge-dilemma-content">
+            <div class="challenge-dilemma-meta">
+              <span class="dilemma-tag" id="challengeTopicTag">Workplace Dilemma</span>
+              <span class="dilemma-state-tag" id="challengeStateTag">Timer Ready</span>
+            </div>
+
+            <h3 class="challenge-question" id="challengeQuestion">
+              "Your startup has only 3 weeks of runway. A predatory investor offers funds today, but demands 65% ownership and full creative veto power."
             </h3>
-            <p>
-              Everyone is forwarding it. What is your next move?
-            </p>
-            <button type="button" class="button primary" id="start-challenge">
-              Start the challenge
-              <span aria-hidden="true">
-                →
-              </span>
-            </button>
-            <div class="choices challenge-choices" id="challenge-choices" role="group" aria-label="Choose how to respond" hidden>
+
+            <!-- 3 Dynamic Choices -->
+            <div class="challenge-choices" id="challengeChoices">
+              <button class="challenge-choice-btn" data-choice="impulsive" disabled>
+                <span class="choice-key">A</span>
+                <span class="choice-text">Sign immediately without reading fine print out of terror.</span>
+              </button>
+              <button class="challenge-choice-btn" data-choice="balanced" disabled>
+                <span class="choice-key">B</span>
+                <span class="choice-text">Take 2 days to negotiate fair terms, audit alternatives, and calculate exit valuation before deciding.</span>
+              </button>
+              <button class="challenge-choice-btn" data-choice="indecisive" disabled>
+                <span class="choice-key">C</span>
+                <span class="choice-text">Keep debating endlessly in panic until the 3-week runway expires without any answer.</span>
+              </button>
             </div>
-            <p id="challenge-status" class="sr-only" role="status" aria-live="polite">
-            </p>
-            <div class="result" id="challenge-result" role="status" aria-live="polite" hidden>
+
+            <!-- Start / Reset Controls -->
+            <div class="challenge-controls">
+              <button id="startChallengeBtn" class="btn btn-primary btn-glow">
+                <span>Start 10-Second Clock</span>
+                <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor">
+                  <polygon points="5 3 19 12 5 21 5 3"></polygon>
+                </svg>
+              </button>
+              <button id="resetChallengeBtn" class="btn btn-secondary hidden">
+                <span>Try Next Scenario</span>
+              </button>
             </div>
-            <button type="button" class="text-button" id="retry-challenge" hidden>
-              Try again ↺
-            </button>
+
+            <!-- Challenge Evaluation Result Box -->
+            <div class="challenge-verdict-box hidden" id="challengeVerdictBox">
+              <div class="verdict-banner" id="challengeVerdictBanner">
+                <span class="verdict-badge-icon" id="challengeVerdictIcon">🎯</span>
+                <div class="verdict-banner-texts">
+                  <h4 id="challengeVerdictTitle">Verdict Title</h4>
+                  <p id="challengeVerdictSub">Time taken: <span id="timeTakenLabel">--</span> seconds</p>
+                </div>
+              </div>
+              <div class="verdict-body" id="challengeVerdictBody">
+                Feedback commentary.
+              </div>
+            </div>
+
           </div>
+
         </div>
-      </section>
-      <section class="final-section section-space" aria-labelledby="final-title">
-        <div class="section-wrap reveal">
-          <p class="eyebrow">
-            CARRY THE WISDOM WITH YOU
-          </p>
-          <p class="final-kural" lang="ta">
-            எண்ணித் துணிக கருமம்; துணிந்தபின்
-            <br>
-            எண்ணுவம் என்பது இழுக்கு.
-          </p>
-          <h2 id="final-title">
-            THINK BEFORE YOU ACT.
-            <br>
-            <span>
-              ACT AFTER YOU THINK.
-            </span>
-          </h2>
-          <div class="final-flow" aria-label="Think, then decide, then act">
-            <span>
-              THINK
-            </span>
-            <b aria-hidden="true">
-              ↓
-            </b>
-            <span>
-              DECIDE
-            </span>
-            <b aria-hidden="true">
-              ↓
-            </b>
-            <span>
-              ACT
-            </span>
+
+      </div>
+    </section>
+
+    <!-- 7. MODERN-DAY APPLICATIONS -->
+    <section id="applications" class="section applications-section">
+      <div class="section-container">
+        
+        <div class="section-badge-center">
+          <span class="badge-text">நவீன வாழ்வியல் • Real World Impact</span>
+        </div>
+
+        <h2 class="section-title">
+          Timeless Wisdom in the 21st Century
+        </h2>
+        <p class="section-intro">
+          Written centuries ago, Kural 467 is the ultimate operating system for high-stakes decisions across contemporary domains.
+        </p>
+
+        <!-- 6 Interactive 3D Cards Grid -->
+        <div class="apps-cards-grid">
+          
+          <!-- Card 1: Education -->
+          <div class="app-card tilt-card" tabindex="0">
+            <div class="app-card-inner">
+              <div class="app-icon-wrap icon-edu">
+                <svg viewBox="0 0 24 24" width="32" height="32" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M22 10v6M2 10l10-5 10 5-10 5z"></path>
+                  <path d="M6 12v5c3 3 9 3 12 0v-5"></path>
+                </svg>
+              </div>
+              <span class="app-tamil-label">கல்வி • Education</span>
+              <h3 class="app-title">Academics & Skill Pathways</h3>
+              <p class="app-desc">
+                Evaluate curriculum relevance, long-term industry demand, and personal aptitude before enrolling. Once committed, master the craft without vacillating.
+              </p>
+              <div class="app-kural-quote">
+                "Think deeply before selecting your study path; pursue it relentlessly once chosen."
+              </div>
+            </div>
           </div>
-          <p class="final-note">
-            Thiruvalluvar’s ancient wisdom remains essential to decision-making today: think carefully, decide clearly, and act with purpose.
-          </p>
-          <a href="#simulator" class="final-link">
-            What will your next thoughtful decision be?
-            <span aria-hidden="true">
-              ↗
-            </span>
-          </a>
+
+          <!-- Card 2: Career -->
+          <div class="app-card tilt-card" tabindex="0">
+            <div class="app-card-inner">
+              <div class="app-icon-wrap icon-career">
+                <svg viewBox="0 0 24 24" width="32" height="32" fill="none" stroke="currentColor" stroke-width="2">
+                  <rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect>
+                  <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path>
+                </svg>
+              </div>
+              <span class="app-tamil-label">தொழில் • Career</span>
+              <h3 class="app-title">Job Offers & Ventures</h3>
+              <p class="app-desc">
+                Analyze organizational culture, mentorship value, and scalability alongside compensation. Avoid jumping impulsively for short-lived glamour.
+              </p>
+              <div class="app-kural-quote">
+                "Weigh company alignment before signing; execute with excellence after joining."
+              </div>
+            </div>
+          </div>
+
+          <!-- Card 3: Money -->
+          <div class="app-card tilt-card" tabindex="0">
+            <div class="app-card-inner">
+              <div class="app-icon-wrap icon-finance">
+                <svg viewBox="0 0 24 24" width="32" height="32" fill="none" stroke="currentColor" stroke-width="2">
+                  <line x1="12" y1="1" x2="12" y2="23"></line>
+                  <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path>
+                </svg>
+              </div>
+              <span class="app-tamil-label">பொருளாதாரம் • Money</span>
+              <h3 class="app-title">Spending & Investments</h3>
+              <p class="app-desc">
+                Apply a 48-hour cooling rule to large purchases. Calculate returns, liquidity, and downside risk instead of chasing volatile hype cycles.
+              </p>
+              <div class="app-kural-quote">
+                "Financial peace is born when calculations precede transactions."
+              </div>
+            </div>
+          </div>
+
+          <!-- Card 4: Relationships -->
+          <div class="app-card tilt-card" tabindex="0">
+            <div class="app-card-inner">
+              <div class="app-icon-wrap icon-heart">
+                <svg viewBox="0 0 24 24" width="32" height="32" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
+                </svg>
+              </div>
+              <span class="app-tamil-label">உறவுகள் • Relationships</span>
+              <h3 class="app-title">Interpersonal Dynamics</h3>
+              <p class="app-desc">
+                Pause before speaking harsh words during disputes. Reflect on empathetic context, then communicate with genuine respect and clarity.
+              </p>
+              <div class="app-kural-quote">
+                "Reflect before words escape your lips; let empathy prevent lifelong fractures."
+              </div>
+            </div>
+          </div>
+
+          <!-- Card 5: Social Media / Digital -->
+          <div class="app-card tilt-card" tabindex="0">
+            <div class="app-card-inner">
+              <div class="app-icon-wrap icon-tech">
+                <svg viewBox="0 0 24 24" width="32" height="32" fill="none" stroke="currentColor" stroke-width="2">
+                  <rect x="5" y="2" width="14" height="20" rx="2" ry="2"></rect>
+                  <line x1="12" y1="18" x2="12.01" y2="18"></line>
+                </svg>
+              </div>
+              <span class="app-tamil-label">தொழில்நுட்பம் • Digital</span>
+              <h3 class="app-title">Social Media & Discourse</h3>
+              <p class="app-desc">
+                Question the integrity and downstream impact of every post or reply. Guard your digital footprint; never let outrage drive public statements.
+              </p>
+              <div class="app-kural-quote">
+                "Verify facts before you post; once shared, hesitation cannot undo the ripple."
+              </div>
+            </div>
+          </div>
+
+          <!-- Card 6: Leadership -->
+          <div class="app-card tilt-card" tabindex="0">
+            <div class="app-card-inner">
+              <div class="app-icon-wrap icon-lead">
+                <svg viewBox="0 0 24 24" width="32" height="32" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+                  <circle cx="9" cy="7" r="4"></circle>
+                  <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+                  <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+                </svg>
+              </div>
+              <span class="app-tamil-label">தலைமைத்துவம் • Leadership</span>
+              <h3 class="app-title">Governance & Risk Management</h3>
+              <p class="app-desc">
+                Leaders must solicit diverse counsel, pressure-test vulnerabilities, and then project resolute courage to steer their teams through uncertainty.
+              </p>
+              <div class="app-kural-quote">
+                "Consult broadly in the war-room; command with unshakeable faith in the field."
+              </div>
+            </div>
+          </div>
+
         </div>
-      </section>
-    </main>
-    <footer class="site-footer section-wrap">
-      <a class="brand" href="#home">
-        <span class="brand-mark" aria-hidden="true">
-          க
-        </span>
-        <span>
-          KURAL
-          <b>
-            467
-          </b>
-        </span>
-      </a>
-      <p>
-        Rooted in Tamil wisdom. Made for everyday life.
-      </p>
-      <a href="#home">
-        Back to top ↑
-      </a>
-    </footer>
-  </body>
+
+      </div>
+    </section>
+
+    <!-- 8. FINAL MESSAGE SECTION -->
+    <section id="final-message" class="section final-message-section">
+      <div class="section-container">
+        
+        <div class="final-monument-card tilt-card">
+          <div class="palm-leaf-grain" aria-hidden="true"></div>
+
+          <div class="monument-ornament">
+            <span class="sacred-sun">☀️</span>
+            <span class="monument-title-badge">வாழ்க்கை நெறி • Eternal Principle</span>
+          </div>
+
+          <!-- Closing Heroic Illustration -->
+          <div class="final-visual-banner">
+            <img src="images/final-clarity.png" alt="A person standing with resolute confidence gazing down an illuminated golden pathway towards dawn surrounded by lotus and Tamil architectural motifs" class="final-banner-img" loading="lazy">
+          </div>
+
+          <!-- Master Tamil Typography -->
+          <div class="final-kural-display">
+            <p class="final-verse-line line-a">
+              எண்ணித் துணிக கருமம்; துணிந்தபின்
+            </p>
+            <p class="final-verse-line line-b">
+              எண்ணுவம் என்பது இழுக்கு.
+            </p>
+          </div>
+
+          <!-- Direct Injunction -->
+          <div class="final-declarations">
+            <h2 class="declaration-item">THINK BEFORE YOU ACT.</h2>
+            <h2 class="declaration-item highlight-declaration">ACT AFTER YOU THINK.</h2>
+          </div>
+
+          <!-- Animated Triple Cascade -->
+          <div class="cascade-flow-trio">
+            <div class="trio-pillar" data-pillar="1">
+              <div class="pillar-label">THINK</div>
+              <div class="pillar-tamil">எண்ணுக</div>
+              <div class="pillar-detail">Analyze with Clarity</div>
+            </div>
+            <div class="trio-down-arrow">↓</div>
+            <div class="trio-pillar" data-pillar="2">
+              <div class="pillar-label">DECIDE</div>
+              <div class="pillar-tamil">துணிக</div>
+              <div class="pillar-detail">Commit with Resolve</div>
+            </div>
+            <div class="trio-down-arrow">↓</div>
+            <div class="trio-pillar active" data-pillar="3">
+              <div class="pillar-label">ACT</div>
+              <div class="pillar-tamil">செய்க</div>
+              <div class="pillar-detail">Execute without Hesitation</div>
+            </div>
+          </div>
+
+          <blockquote class="final-valluvar-verdict">
+            "Thiruvalluvar expressed a principle more than two thousand years ago that remains essential to decision-making today."
+          </blockquote>
+
+          <div class="final-actions">
+            <a href="#game" class="btn btn-primary btn-glow">
+              <span>Replay Decision Game</span>
+              <small>மீண்டும் பயிற்சி பெறுக</small>
+            </a>
+            <a href="#simulator" class="btn btn-secondary">
+              <span>Open Simulator</span>
+              <small>புதிய முடிவு சோதிக்க</small>
+            </a>
+          </div>
+
+          <div class="monument-credits">
+            <span>குறள் 467 • அதிகாரம் 47 • தெரிந்து செயல்வகை</span>
+          </div>
+
+        </div>
+
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Site Footer -->
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <div class="footer-brand">
+        <span class="footer-logo">ௐ திருக்குறள் 467</span>
+        <p>An interactive, 3D educational tribute to Tamil classical philosophy and timeless human strategy.</p>
+      </div>
+      <div class="footer-meta">
+        <p>Crafted with HTML5, CSS3, & Vanilla JavaScript • Zero external UI libraries.</p>
+        <p class="copyright">"எண்ணித் துணிக கருமம்; துணிந்தபின் எண்ணுவம் என்பது இழுக்கு"</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Script -->
+  <script src="script.js"></script>
+</body>
 </html>
